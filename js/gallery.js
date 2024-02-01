@@ -66,6 +66,8 @@ const images = [
 
 const container = document.querySelector(".gallery");
 
+let currentModal;
+
 function createImageMarkup({ preview, original, description }) {
   const markup=`
 <li class="gallery-item">
@@ -88,3 +90,24 @@ for (const image of images) {
 }
 
 container.innerHTML = markup;
+
+const gallery_items = document.querySelectorAll(".gallery-image");
+console.log(gallery_items);
+
+gallery_items.forEach((item) => {
+  item.addEventListener("click", (event) => {
+    event.preventDefault();
+    let source = event.currentTarget.dataset.source;
+    currentModal = basicLightbox.create(`
+    <img src="${source}">
+`);
+    currentModal.show();
+  })  
+})
+
+document.addEventListener("keyup", ({code}) => {
+  if (code !== "Escape") {
+    return;
+  }
+  currentModal.close();
+})
