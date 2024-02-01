@@ -98,7 +98,7 @@ gallery_items.forEach((item) => {
   item.addEventListener("click", (event) => {
     event.preventDefault();
     let source = event.currentTarget.dataset.source;
-    let description = event.currentTarget.dataset.description;
+    let description = event.currentTarget.alt;
     currentModal = basicLightbox.create(`
     <img src="${source}" alt="${description}">
 `);
