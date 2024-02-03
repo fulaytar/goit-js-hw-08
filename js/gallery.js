@@ -91,24 +91,27 @@ for (const image of images) {
 
 container.innerHTML = markup;
 
-const gallery_items = document.querySelectorAll(".gallery-image");
-console.log(gallery_items);
 
-gallery_items.forEach((item) => {
-  item.addEventListener("click", (event) => {
-    event.preventDefault();
-    let source = event.currentTarget.dataset.source;
-    let description = event.currentTarget.alt;
-    currentModal = basicLightbox.create(`
-    <img src="${source}" alt="${description}">
-`);
-    currentModal.show();
-  })  
-})
+container.addEventListener("click", openModal);
+function openModal(event) {
+  event.preventDefault();
+  if (event.target === event.currentTarget) {
+    return;
+  }
+  const currentModal = basicLightbox.create(`
+    <img src="${event.target.dataset.source}" alt="${event.target.alt}">
+`)
+  currentModal.show();
 
-document.addEventListener("keyup", ({code}) => {
+  document.addEventListener("keyup", closeModal);
+
+  function closeModal({code}) {
   if (code !== "Escape") {
     return;
   }
-  currentModal.close();
-})
+    currentModal.close();
+
+    document.removeEventListener("keyup", closeModal);
+}
+}
+
